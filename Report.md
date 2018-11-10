@@ -164,7 +164,8 @@ mtry &lt;- sqrt(ncol(training))
 modRF &lt;- train(classe~., data=training, method="rf",
 metric=metric, tuneLength=15, trControl=control)
 
-predRF&lt;-predict(modRF,testing) confusionMatrix(testing$classe,predRF)
+predRF&lt;-predict(modRF,testing)
+confusionMatrix(testing$classe,predRF)
 
 refence - <https://machinelearningmastery.com/tune-machine-learning-algorithms-in-r/>
 

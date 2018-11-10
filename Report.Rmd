@@ -88,19 +88,18 @@ testing = tr_no[-inTrain,]
 training<-training[,inputs]   
 testing<-testing[,inputs]   
 
-metric<-"Accuracy"   
+metric<-"Accuracy"    
 ## 10 fold cross validation to negate any overfitting by random Forest model   
-control <- trainControl(method="repeatedcv", number=10, repeats=3, search="random")   
-mtry <- sqrt(ncol(training))   
-modRF <- train(classe~., data=training, method="rf",    
-               metric=metric, tuneLength=15, trControl=control)   
+control <- trainControl(method="repeatedcv", number=10, repeats=3, search="random")     
+mtry <- sqrt(ncol(training))    
+modRF <- train(classe~., data=training, method="rf",     
+               metric=metric, tuneLength=15, trControl=control)     
                    
-predRF<-predict(modRF,testing)
-confusionMatrix(testing$classe,predRF)
-
-
-refence - https://machinelearningmastery.com/tune-machine-learning-algorithms-in-r/
-
+predRF<-predict(modRF,testing)    
+confusionMatrix(testing$classe,predRF)     
+ 
+refence - https://machinelearningmastery.com/tune-machine-learning-algorithms-in-r/     
+ 
 Now we test performance on testing dataset    
      
      
