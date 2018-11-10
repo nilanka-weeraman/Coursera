@@ -93,6 +93,8 @@ names(training)
     ## [157] "magnet_forearm_x"         "magnet_forearm_y"        
     ## [159] "magnet_forearm_z"         "classe"
 
+#### Observations of training and testing data
+
 The dataset contains sensor readings of activity (dumpbell lifting) for each person. And in training data, both continuous readings (sampled) and summarized readings (after activity is finished for one rep) available. This is distinguished by **new\_window** variable. When examining testing data, it only contains new\_window='No' instances only. Thus we can ignore 'No' instances for training.
 
 ``` r
@@ -116,8 +118,7 @@ inputs=c('user_name','roll_belt','pitch_belt','yaw_belt','total_accel_belt'
 tr_no_fil <- tr_no[,inputs]
 ```
 
-Including Plots
----------------
+#### Explore covariates
 
 Exploring relationship between inputs and 'target'classe' by plotting distributions as; ![](Report_files/figure-markdown_github/unnamed-chunk-1-1.png)
 
@@ -135,12 +136,19 @@ plot(tr_no_fil[tr_no_fil$classe=='A',c("user_name")],tr_no_fil[tr_no_fil$classe=
 
 ![](Report_files/figure-markdown_github/unnamed-chunk-2-1.png) Since we have large no of potential input variables, we can us
 
-Lets examine a simple classifier is able to classify events. Using a decision tree
+Lets examine a simple classifier is able to classify events.
+Using a decision tree
 
-libray(caret) modTree&lt;-train(classe ~., method="rpart",data=training) require(rattle) fancyRpartPlot(modTree$finalModel) ![simple decision tree showing class A and E can be seperated with high accuracy](D:\D\F_BACKUP\Coursera\Axiata\Practical%20ML\DTPlot.png)
+libray(caret)
+modTree&lt;-train(classe ~., method="rpart",data=training)
+require(rattle)
+fancyRpartPlot(modTree$finalModel)
+![simple decision tree showing class A and E can be seperated with high accuracy](D:\D\F_BACKUP\Coursera\Axiata\Practical%20ML\DTPlot.png)
 
 Thus I've decided to use Random Forest classifier for predictions
 *Note - I could not include caret package into R markdown. Thus below codes are shown as R comments. Please bear with me *
+
+#### Model Building and Evaluation
 
 library(caret)
 inTrain = createDataPartition(tr\_no$classe, p = 3/4)\[\[1\]\]
@@ -161,8 +169,7 @@ predRF&lt;-predict(modRF,testing) confusionMatrix(testing$classe,predRF)
 refence - <https://machinelearningmastery.com/tune-machine-learning-algorithms-in-r/>
 
 Now we test performance on testing dataset
+
 ![confusionMatrix](D:\D\F_BACKUP\Coursera\Axiata\Practical%20ML\ConfusionM.PNG)
 
 Both in sample and out of sample error rates are very low. Thus I have finalized above model as my final and used for the quiz.
-
-Thanks
